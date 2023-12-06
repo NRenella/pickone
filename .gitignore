@@ -61,3 +61,5 @@ app.*.map.json
 /lib/firebase_options.dart
 /lib/services/auth/auth_gate.dart
 /lib/services/auth/auth_service.dart
+/lib/services/chat/chat_service.dart
+/lib/pages/chat_page.dart
