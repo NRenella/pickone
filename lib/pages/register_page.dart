@@ -31,11 +31,24 @@ class _RegisterPageState extends State<RegisterPage>{
       );
       return;
     }
+    if (usernameController.text.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Enter a username"),
+        ),
+      );
+      return;
+    }
 
     final authService = Provider.of<AuthService>(context, listen: false);
 
     try{
-      await authService.signUpWithEmailandPassword(emailController.text,passwordController.text);
+      await authService.signUpWithEmailandPassword(
+          usernameController.text,
+          emailController.text,
+          passwordController.text,
+          imageController
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
@@ -56,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage>{
         // background image
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/img5.jpg',),
+            image: const AssetImage('lib/assets/img5.jpg',),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.4),
@@ -84,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage>{
                       CircleAvatar(
                         backgroundColor: Colors.white.withOpacity(0),
                         radius: 80,
-                        backgroundImage: AssetImage('lib/assets/avatar-removebg.png'),
+                        backgroundImage: const AssetImage('lib/assets/avatar-removebg.png'),
                       ),
                       Positioned(
                           child: IconButton(

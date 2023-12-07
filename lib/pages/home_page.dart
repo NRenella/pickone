@@ -4,6 +4,8 @@ import 'package:pickone/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pickone/pages/chat_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
 
 
 class HomePage extends StatefulWidget{
@@ -14,20 +16,54 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<Widget> screens = [
+    HomePage(),
+
+  ];
+
   // instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // instance of firestore
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+
+  String currUserName = "";
+
+
   void signOut(){
     final authService = Provider.of<AuthService>(context, listen: false);
-
     authService.signOut();
+  }
+
+  _fetch() async {
+    final firebaseUser = await _auth.currentUser;
+    if(firebaseUser != null){
+      await _fireStore
+        .collection('user')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((ds){
+          currUserName=ds.data()!['username'];
+      }).catchError((e){
+        throw Exception(e.toString());
+      });
+    }
+
   }
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomePage'),
+        title: FutureBuilder(
+          future: _fetch(),
+          builder: (context,snapshot){
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Text("Loading...");
+            }
+            return Text(currUserName);
+          },
+        ),
         actions: [
           // sign out button
           IconButton(
@@ -50,7 +86,6 @@ class _HomePageState extends State<HomePage> {
         if(snapshot.connectionState == ConnectionState.waiting){
           return const Text('loading...');
         }
-
         return ListView(
           children: snapshot.data!.docs
             .map<Widget>((doc) => _buildUserListItem(doc))
