@@ -67,14 +67,10 @@ class _RegisterPageState extends State<RegisterPage>{
       backgroundColor: Colors.grey[300],
       body: Container(
         // background image
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('lib/assets/img5.jpg',),
+            image: AssetImage('lib/assets/background.png',),
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4),
-              BlendMode.darken,
-            ),
           ),
         ),
         // profile picture section
@@ -100,14 +96,13 @@ class _RegisterPageState extends State<RegisterPage>{
                         backgroundImage: const AssetImage('lib/assets/avatar-removebg.png'),
                       ),
                       Positioned(
-                          child: IconButton(
-                            onPressed: selectImage,
-                            icon: const Icon(Icons.add_a_photo),
-                            color: Colors.white,
-                          ),
                         bottom: 0,
                         left: 90,
-
+                        child: IconButton(
+                          onPressed: selectImage,
+                          icon: const Icon(Icons.add_a_photo),
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),

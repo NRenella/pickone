@@ -1,50 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProfilePage extends StatefulWidget{
-  const ProfilePage({super.key});
+
+
+class OtherProfilePage extends StatefulWidget{
+  final String receiveUserEmail;
+  final String receiveUserID;
+  const OtherProfilePage({
+    super.key,
+    required this.receiveUserEmail,
+    required this.receiveUserID,
+  });
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<OtherProfilePage> createState() => _OtherProfilePageState();
 }
 
-// instance of auth
-final FirebaseAuth _auth = FirebaseAuth.instance;
+
+class _OtherProfilePageState extends State<OtherProfilePage>{
+  // instance of auth
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
 // instance of firestore
-final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
-String username = "placeholder";
-String email = "place@gmail.com";
-String profilepic = "lll";
+  String username = "placeholder";
+  String profilepic = "lll";
 
-_fetch() async {
-  final firebaseUser = await _auth.currentUser;
-  if(firebaseUser != null){
-    await _fireStore
-        .collection('user')
-        .doc(firebaseUser.uid)
-        .get()
-        .then((ds){
-      username=ds.data()!['username']!;
-      email=ds.data()!['email']!;
-      profilepic=ds.data()!['profilepic']!;
-    }).catchError((e){
-      throw Exception(e.toString());
-    });
+  _fetch() async {
+    final firebaseUser = await _auth.currentUser;
+    if(firebaseUser != null){
+      await _fireStore
+          .collection('user')
+          .doc(widget.receiveUserID)
+          .get()
+          .then((ds){
+        username=ds.data()!['username']!;
+        profilepic=ds.data()!['profilepic']!;
+      }).catchError((e){
+        throw Exception(e.toString());
+      });
+    }
   }
-}
 
-// sign user out
-Future<void> signOut() async {
-  return await FirebaseAuth.instance.signOut();
-}
-
-class _ProfilePageState extends State<ProfilePage>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Colors.transparent ,),
       backgroundColor: Colors.grey[300],
       body: Container(
         decoration: const BoxDecoration(
@@ -87,26 +91,18 @@ class _ProfilePageState extends State<ProfilePage>{
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10,),
-                      Text(
-                        email,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                        ),
-                      ),
                       const SizedBox(height: 15,),
                       GestureDetector(
-                        onTap: signOut,
+                        onTap: (){},
                         child: Container(
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            color: Colors.greenAccent,
                             borderRadius: BorderRadius.circular(9),
                           ),
                           child: const Center(
                             child: Text(
-                              "Sign Out",
+                              "Add Friend",
                               style: TextStyle(
                                 color:Colors.white,
                                 fontWeight: FontWeight.bold,

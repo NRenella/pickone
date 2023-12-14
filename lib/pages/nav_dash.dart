@@ -15,20 +15,20 @@ class _NavPageState extends State<NavPage>{
 
   int currentTab = 0;
   final List<Widget> screens = [
-    HomePage(),
-    AddPage(),
-    ProfilePage()
+    const HomePage(),
+    const AddPage(),
+    const ProfilePage()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = HomePage();
+  Widget currentScreen = const HomePage();
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       body: PageStorage(
-        child: currentScreen,
         bucket: bucket,
+        child: currentScreen,
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -40,21 +40,22 @@ class _NavPageState extends State<NavPage>{
               activeColor: Colors.white,
               tabBackgroundColor: Colors.grey.shade800,
               gap: 8,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               tabs: [
+
                 GButton( icon: Icons.home, text: 'Home',onPressed: (){
                   setState(() {
-                    currentScreen = HomePage();
+                    currentScreen = const HomePage();
                   });
-                }, ),
+                },),
                 GButton( icon: Icons.add, text: 'Add Friends',onPressed: (){
                   setState(() {
-                    currentScreen = AddPage();
+                    currentScreen = const AddPage();
                   });
                 },),
                 GButton( icon: Icons.person, text: 'Profile', onPressed: (){
                   setState(() {
-                    currentScreen = ProfilePage();
+                    currentScreen = const ProfilePage();
                   });
                 },),
               ]
