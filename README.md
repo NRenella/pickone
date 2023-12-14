@@ -8,3 +8,4 @@ The app also features Firebase for user authentication and information storing.
 Below are some of the screens you may see in the app.
 
 ![alt text](https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/1.png?raw=true | width=100)
+<img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/1.png" width="100">
