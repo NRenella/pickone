@@ -73,7 +73,7 @@ class _AddPageState extends State<AddPage>{
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
     // display all users except current
-    if(_auth.currentUser!.email != data['email']){
+    if(_auth.currentUser!.uid != data['uid']){
       return Column(
         children: [
           const SizedBox(height: 10,),
