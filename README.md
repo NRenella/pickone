@@ -1,13 +1,16 @@
-# PickOne Movie Selection App
-The idea behind the app is to help couples, and soon groups of friends, to make a choice on what movie to watch.
+# pickone
 
-It uses [TMBD](https://developer.themoviedb.org/reference/trending-movies) API of trending movies to create the options.
+A new Flutter project.
 
-The app also features Firebase for user authentication and information storing. 
+## Getting Started
 
-Below are some of the screens you may see in the app.
+This project is a starting point for a Flutter application.
 
+A few resources to get you started if this is your first Flutter project:
 
-<img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/1.png" width="250"> <img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/2.png" width="250">
-<img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/3.png" width="250"> <img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/4.png" width="250">
-<img src="https://github.com/NRenella/pickone/blob/master/lib/assets/screenshots/5.png" width="250">
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

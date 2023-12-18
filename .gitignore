@@ -47,7 +47,6 @@ app.*.map.json
 /pickone.iml
 /pubspec.lock
 /pubspec.yaml
-/README.md
 /linux/
 /macos/
 /test/
