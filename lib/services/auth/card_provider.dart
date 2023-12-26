@@ -69,9 +69,9 @@ class CardProvider extends ChangeNotifier{
     }
   }
 
-  void sendLike() async {
+  void sendLike(bool superLike) async {
     print("Sending Like");
-    await _likeService.sendLike(_receiverId, _movies.last, false);
+    await _likeService.sendLike(_receiverId, _movies.last, superLike);
   }
 
   void resetPosition(){
@@ -102,7 +102,7 @@ class CardProvider extends ChangeNotifier{
   void like(){
     _angle = 20;
     _position += Offset(_screenSize.width * 2, 0);
-    sendLike();
+    sendLike(false);
     _nextCard();
 
     notifyListeners();
@@ -117,6 +117,7 @@ class CardProvider extends ChangeNotifier{
   void superLike(){
     _angle = 0;
     _position -= Offset(0,_screenSize.height);
+    sendLike(true);
     _nextCard();
 
     notifyListeners();

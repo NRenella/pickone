@@ -10,6 +10,7 @@ class Like {
   final String movieoverview;
   final double movierating;
   final int movieid;
+  final bool match;
 
   Like({
     required this.senderId,
@@ -22,6 +23,7 @@ class Like {
     required this.movieoverview,
     required this.movierating,
     required this.movieid,
+    required this.match,
   });
 
   // convert to map (how it is stored in firebase)
@@ -36,7 +38,13 @@ class Like {
       'movieimage':movieimage,
       'movieoverview': movieoverview,
       'movierating': movierating,
-      'moviemovieid': movieid
+      'movieid': movieid,
+      'match': match
+
     };
+  }
+  @override
+  String toString(){
+    return 'Movie {name: $moviename}, image: {$movieimage}';
   }
 }

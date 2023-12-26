@@ -30,6 +30,6 @@ class Movie{
 
   @override
   String toString(){
-    return 'Movie {name: $name}, image: {$image},';
+    return 'Movie {name: $name}, image: {$image}';
   }
 }

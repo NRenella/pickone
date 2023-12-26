@@ -83,8 +83,8 @@ class _MovieCardState extends State<MovieCard>{
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(widget.image),
-          fit: BoxFit.cover,
-          alignment: Alignment(-0.3,0)
+          fit: BoxFit.fill,
+          alignment: const Alignment(-0.3,0)
         ),
       ),
     ),
