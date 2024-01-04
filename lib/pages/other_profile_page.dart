@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pickone/services/chat/friend_service.dart';
 
 
 
@@ -25,6 +26,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>{
 // instance of firestore
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
+  final FriendService _friendService = FriendService();
+
   String username = "placeholder";
   String profilepic = "lll";
 
@@ -42,6 +45,12 @@ class _OtherProfilePageState extends State<OtherProfilePage>{
         throw Exception(e.toString());
       });
     }
+  }
+
+  void refresh() async {
+    await _friendService.sendFriendRequest(widget.receiveUserID);
+    Navigator.pop(context);
+
   }
 
   @override
@@ -93,7 +102,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>{
                       ),
                       const SizedBox(height: 15,),
                       GestureDetector(
-                        onTap: (){},
+                        onTap: () => refresh(),
                         child: Container(
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(

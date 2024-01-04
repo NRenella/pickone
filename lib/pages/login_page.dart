@@ -47,17 +47,62 @@ class _LoginPageState extends State<LoginPage>{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 50,),
-                  // welcome back message
-                  const Text(
-                    "PickOne",
-                    style: TextStyle(
-                      fontSize: 64,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const Image(
+                    image: AssetImage('lib/assets/logo_mascot.png')
                   ),
-                  const SizedBox(height: 55,),
+                  //welcome back message
+                  Stack(
+                    children: <Widget>[
+                      // Text(
+                      //   "PickOne",
+                      //   style: TextStyle(
+                      //     shadows: <Shadow>[
+                      //       Shadow(
+                      //         offset: Offset(7.0, 7.0),
+                      //         blurRadius: 0,
+                      //         color: Color(0xffB026ff),
+                      //       ),
+                      //       Shadow(
+                      //         offset: Offset(7.0, 7.0),
+                      //         blurRadius: 0,
+                      //         color: Color(0xffB026ff),
+                      //       ),
+                      //     ],
+                      //     fontSize: 64,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   "PickOne",
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 64,
+                      //     foreground: Paint()
+                      //       ..style = PaintingStyle.stroke
+                      //       ..strokeWidth = 9
+                      //       .. color = Colors.black,
+                      //
+                      //   ),
+                      // ),
+                      const Text(
+                        "PickOne",
+                        style: TextStyle(
+                          fontSize: 64,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                    ],
+                  ),
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(8.0),
+                  //   child: const Image(
+                  //       image: AssetImage('lib/assets/TextOnly_NoBuffer.png'),
+                  //   ),
+                  // ),
+
+                  const SizedBox(height: 25,),
                   // email text field
                   MyTextField(
                       controller: emailController,

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 class Like {
   final String senderId;
-  final String senderEmail;
   final String receiverId;
   final bool superlike;
   final Timestamp timestamp;
@@ -14,7 +13,6 @@ class Like {
 
   Like({
     required this.senderId,
-    required this.senderEmail,
     required this.receiverId,
     required this.superlike,
     required this.timestamp,
@@ -30,7 +28,6 @@ class Like {
   Map<String, dynamic> toMap(){
     return{
       'senderId':senderId,
-      'senderEmail':senderEmail,
       'receiverId':receiverId,
       'superlike': superlike,
       'timestamp':timestamp,

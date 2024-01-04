@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:pickone/services/auth/auth_service.dart';
 import 'package:pickone/components/profile_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart';
+import 'package:flutter/src/services/asset_bundle.dart';
+// import 'package:flutter/services.dart';
 
 class RegisterPage extends StatefulWidget{
   final void Function()? onTap;
@@ -20,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage>{
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  Uint8List? imageController;
+  Uint8List ?imageController;
 
   void signUp() async {
     if (passwordController.text != confirmPasswordController.text){
@@ -62,6 +65,16 @@ class _RegisterPageState extends State<RegisterPage>{
   }
 
   @override
+  void initState(){
+    super.initState();
+    setDefault();
+  }
+
+  Future<void> setDefault() async {
+    imageController = (await rootBundle.load('lib/assets/avatar-removebg.png')).buffer.asUint8List();
+  }
+
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -93,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage>{
                       CircleAvatar(
                         backgroundColor: Colors.white.withOpacity(0),
                         radius: 80,
-                        backgroundImage: const AssetImage('lib/assets/avatar-removebg.png'),
+                        backgroundImage: const AssetImage('lib/assets/avatar-removebg2.png'),
                       ),
                       Positioned(
                         bottom: 0,

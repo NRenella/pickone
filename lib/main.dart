@@ -5,10 +5,15 @@ import 'package:pickone/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:pickone/services/auth/auth_service.dart';
 import 'package:pickone/services/auth/card_provider.dart';
+import 'package:flutter/services.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
       MultiProvider(

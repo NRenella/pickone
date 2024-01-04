@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pickone/pages/other_profile_page.dart';
+import 'package:pickone/services/chat/friend_service.dart';
+import 'dart:async';
 
 class AddPage extends StatefulWidget{
   const AddPage({super.key});
@@ -11,6 +13,9 @@ class AddPage extends StatefulWidget{
 }
 
 class _AddPageState extends State<AddPage>{
+  final FriendService _friendService = FriendService();
+  Set<String> friends = new Set();
+  bool _isLoading = true;
 
 
   // instance of auth
@@ -20,7 +25,62 @@ class _AddPageState extends State<AddPage>{
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
+  void initState(){
+    super.initState();
+    getFriends();
+  }
+
+  Future<void> getFriends() async {
+    friends = new Set();
+    QuerySnapshot <Object?> docu = await _friendService.getPossibleFriendsList();
+    for (var x in docu.docs){
+      friends.add(x['receiverId']);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  FutureOr<void> refreshAndGoBack() async {
+    _isLoading = true;
+    getFriends();
+    setState(() {});
+  }
+
+  Future<void> addAndRefresh(String id) async {
+    await _friendService.sendFriendRequest(id);
+    _isLoading = true;
+    getFriends();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context){
+    if(_isLoading){
+      return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.black.withOpacity(0),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'lib/assets/background.png',
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: SafeArea(
+            child: Center(
+              child:CircularProgressIndicator(
+                color: Colors.white,
+              )
+            ),
+          ),
+        ),
+      );
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -71,9 +131,8 @@ class _AddPageState extends State<AddPage>{
   // build individual user list item
   Widget _buildUserListItem(DocumentSnapshot document){
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
     // display all users except current
-    if(_auth.currentUser!.uid != data['uid']){
+    if(_auth.currentUser!.uid != data['uid'] && !friends.contains(data['uid'])){
       return Column(
         children: [
           const SizedBox(height: 10,),
@@ -105,17 +164,7 @@ class _AddPageState extends State<AddPage>{
                   ),
                   IconButton(
                       alignment:Alignment.centerRight,
-                      onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtherProfilePage(
-                              receiveUserEmail:data['email'],
-                              receiveUserID:data['uid'],
-                            ),
-                          ),
-                        );
-                      },
+                      onPressed: () => addAndRefresh(data['uid']),
                       icon: const Icon(Icons.add, color: Colors.white,)
                   ),
                 ]
@@ -130,7 +179,7 @@ class _AddPageState extends State<AddPage>{
                       receiveUserID:data['uid'],
                     ),
                   ),
-                );
+                ).then((_) => refreshAndGoBack());
               },
             )
           )

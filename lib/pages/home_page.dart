@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pickone/pages/other_profile_page.dart';
 import 'package:pickone/pages/chat_page.dart';
+import 'package:pickone/services/chat/friend_service.dart';
+import 'package:async/async.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -16,6 +18,8 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage> {
   List<Movie> _movies = [];
+  final FriendService _friendService = FriendService();
+  Set<String> friends = new Set();
   bool _isLoading = true;
   // instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,11 +27,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState(){
     super.initState();
-    getMovies();
+    getFriends();
   }
 
-  Future<void> getMovies() async{
-    _movies = await MovieApi.getMovie();
+  Future<void> getFriends() async {
+    QuerySnapshot <Object?> docu = await _friendService.getFriendsList();
+    for (var x in docu.docs){
+      friends.add(x['senderId'] == _auth.currentUser!.uid ? x['receiverId'] : x['senderId']);
+    }
     setState(() {
       _isLoading = false;
     });
@@ -79,11 +86,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
   // build individual user list item
-  Widget _buildUserListItem(DocumentSnapshot document){
+  Widget _buildUserListItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
     // display all users except current
-    if(_auth.currentUser!.uid != data['uid']){
+    if(_auth.currentUser!.uid != data['uid'] && friends.contains(data['uid'])){
       return Column(
           children: [
             const SizedBox(height: 10,),
@@ -122,6 +129,8 @@ class _HomePageState extends State<HomePage> {
                                   builder: (context) => ChatPage(
                                     receiveUserEmail:data['email'],
                                     receiveUserID:data['uid'],
+                                    receiveUserProfilePic: data['profilepic'],
+                                    receiveUserUsername: data['username'],
                                   ),
                                 ),
                               );
@@ -138,6 +147,8 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => ChatPage(
                           receiveUserEmail:data['email'],
                           receiveUserID:data['uid'],
+                          receiveUserProfilePic: data['profilepic'],
+                          receiveUserUsername: data['username'],
                         ),
                       ),
                     );
