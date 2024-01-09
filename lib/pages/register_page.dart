@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:pickone/services/auth/auth_service.dart';
 import 'package:pickone/components/profile_button.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart';
 import 'package:flutter/src/services/asset_bundle.dart';
-// import 'package:flutter/services.dart';
+
 
 class RegisterPage extends StatefulWidget{
   final void Function()? onTap;

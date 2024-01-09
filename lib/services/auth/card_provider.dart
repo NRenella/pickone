@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pickone/pages/chat_page.dart';
-import 'package:pickone/components/movie_card.dart';
 import 'package:pickone/models/movie.dart';
 import 'package:pickone/services/chat/like_service.dart';
 
@@ -50,10 +48,6 @@ class CardProvider extends ChangeNotifier{
 
     final status = getStatus();
 
-    if (status != null){
-      print(status.toString().split('.').last.toUpperCase());
-    }
-
     switch (status) {
       case CardStatus.like:
         like();
@@ -70,7 +64,6 @@ class CardProvider extends ChangeNotifier{
   }
 
   void sendLike(bool superLike) async {
-    print("Sending Like");
     await _likeService.sendLike(_receiverId, _movies.last, superLike);
   }
 
@@ -87,7 +80,7 @@ class CardProvider extends ChangeNotifier{
     final y = _position.dy;
     final forceSuperLike = x.abs() < 20;
 
-    final delta = 100;
+    const delta = 100;
 
     if (x >= delta){
       return CardStatus.like;
@@ -128,7 +121,7 @@ class CardProvider extends ChangeNotifier{
   Future _nextCard() async {
     if(_movies.isEmpty) return;
 
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 200));
     _movies.removeLast();
     resetPosition();
   }

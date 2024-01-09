@@ -173,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage>{
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child:Container(
                       alignment: Alignment.centerLeft,
-                      child: Text(
+                      child: const Text(
                         "Friend Request: ",
                         style: TextStyle(
                           color:Colors.white,
