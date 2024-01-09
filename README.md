@@ -1,4 +1,4 @@
-# pickone
+# PickOne
 
 A new Flutter project.
 
