@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pickone/models/friend.dart';
-import 'package:async/async.dart';
 
 class FriendService extends ChangeNotifier{
   // get instance of auth and fire store
@@ -24,7 +23,7 @@ class FriendService extends ChangeNotifier{
     if(document.size > 0){
       request = false;
       String docID = document.docs.first.id;
-      Friend updateFriend = new Friend(
+      Friend updateFriend = Friend(
         senderId: receiverId,
         receiverId: currentUserId,
         request: request,
@@ -36,7 +35,7 @@ class FriendService extends ChangeNotifier{
           .update(updateFriend.toMap());
     }
 
-    Friend newFriend = new Friend(
+    Friend newFriend = Friend(
       senderId: currentUserId,
       receiverId: receiverId,
       request: request,

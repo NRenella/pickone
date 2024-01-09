@@ -15,7 +15,6 @@ class LikeService extends ChangeNotifier {
 
     // get current user info
     final String currentUserId = _firebaseAuth.currentUser!.uid;
-    final String currentUserEmail = _firebaseAuth.currentUser!.email.toString();
     final Timestamp timestamp = Timestamp.now();
 
     // construct a chat room id from current user id and receiver id (sorted to ensure uniqueness)

@@ -14,7 +14,7 @@ class AddPage extends StatefulWidget{
 
 class _AddPageState extends State<AddPage>{
   final FriendService _friendService = FriendService();
-  Set<String> friends = new Set();
+  Set<String> friends = Set();
   bool _isLoading = true;
 
 
@@ -28,7 +28,7 @@ class _AddPageState extends State<AddPage>{
   }
 
   Future<void> getFriends() async {
-    friends = new Set();
+    friends = Set();
     QuerySnapshot <Object?> docu = await _friendService.getPossibleFriendsList();
     for (var x in docu.docs){
       friends.add(x['receiverId']);
@@ -68,7 +68,7 @@ class _AddPageState extends State<AddPage>{
               fit: BoxFit.cover,
             ),
           ),
-          child: SafeArea(
+          child: const SafeArea(
             child: Center(
               child:CircularProgressIndicator(
                 color: Colors.white,

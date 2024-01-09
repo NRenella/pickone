@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pickone/components/movie_card.dart';
-import 'package:pickone/models/movie.dart';
-import 'package:pickone/services/chat/movie_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pickone/pages/other_profile_page.dart';
 import 'package:pickone/pages/chat_page.dart';
 import 'package:pickone/services/chat/friend_service.dart';
-import 'package:async/async.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -17,10 +12,8 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Movie> _movies = [];
   final FriendService _friendService = FriendService();
-  Set<String> friends = new Set();
-  bool _isLoading = true;
+  Set<String> friends = Set();
   // instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -36,7 +29,6 @@ class _HomePageState extends State<HomePage> {
       friends.add(x['senderId'] == _auth.currentUser!.uid ? x['receiverId'] : x['senderId']);
     }
     setState(() {
-      _isLoading = false;
     });
   }
 

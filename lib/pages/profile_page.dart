@@ -48,45 +48,36 @@ Future<void> signOut() async {
 
 class _ProfilePageState extends State<ProfilePage>{
   final FriendService _friendService = FriendService();
-  Set<String> friends = new Set();
-  bool _isLoading = true;
+  Set<String> friends = Set();
   bool _doneLoading = false;
 
   // instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // instance of firestore
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
-
   @override
   void initState(){
-    _isLoading = false;
     super.initState();
     getFriends();
   }
 
   Future<void> getFriends() async {
-    friends = new Set();
+    friends = Set();
     QuerySnapshot <Object?> docu = await _friendService.getFriendsRequestList();
     for (var x in docu.docs){
       friends.add(x['senderId'] == _auth.currentUser!.uid ? x['receiverId'] : x['senderId']);
     }
     setState(() {
-      _isLoading = false;
       _doneLoading = true;
     });
   }
 
   FutureOr<void> refreshAndGoBack() async {
-    _isLoading = true;
     getFriends();
     setState(() {});
   }
 
   Future<void> addAndRefresh(String id) async {
     await _friendService.sendFriendRequest(id);
-    _isLoading = true;
     getFriends();
     setState(() {});
   }
