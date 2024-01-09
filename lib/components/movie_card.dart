@@ -59,9 +59,9 @@ class _MovieCardState extends State<MovieCard>{
 
         return AnimatedContainer(
           duration: Duration(milliseconds: milliseconds),
-          child: buildCard(),
           transform: rotatedMatrix..translate(position.dx,position.dy),
           curve: Curves.easeInOut,
+          child: buildCard(),
         );
       },
     ),

@@ -21,9 +21,6 @@ class _AddPageState extends State<AddPage>{
   // instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // instance of firestore
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
   @override
   void initState(){
     super.initState();
