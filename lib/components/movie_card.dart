@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:pickone/services/auth/card_provider.dart';
+
 import 'dart:math';
 
+
+// MovieCard class for storing out movie information in each card
 class MovieCard extends StatefulWidget {
   final String name;
   final String image;
@@ -40,55 +44,62 @@ class _MovieCardState extends State<MovieCard>{
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox.expand(
-    child: widget.isFront ? buildFrontCard() : buildCard(),
-  );
-  Widget buildFrontCard() => GestureDetector(
-    child: LayoutBuilder(
-      builder: (context, constraints) {
-        final provider = Provider.of<CardProvider>(context, listen: true);
-        final position = provider.position;
-        final milliseconds = provider.isDragging ? 0 : 400;
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: widget.isFront ? buildFrontCard() : buildCard(),
+    );
+  }
 
-        final center = constraints.smallest.center(Offset.zero);
-        final angle = provider.angle * pi / 180;
-        final rotatedMatrix = Matrix4.identity()
-          ..translate(center.dx, center.dy)
-          ..rotateZ(angle)
-          ..translate(-center.dx, -center.dy);
+  Widget buildFrontCard() {
+    return GestureDetector(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final provider = Provider.of<CardProvider>(context, listen: true);
+          final position = provider.position;
+          final milliseconds = provider.isDragging ? 0 : 400;
 
-        return AnimatedContainer(
-          duration: Duration(milliseconds: milliseconds),
-          transform: rotatedMatrix..translate(position.dx,position.dy),
-          curve: Curves.easeInOut,
-          child: buildCard(),
-        );
-      },
-    ),
-    onPanStart:(details){
-      final provider = Provider.of<CardProvider>(context,listen: false);
-      provider.startPosition(details);
-    }, onPanUpdate: (details){
-      final provider = Provider.of<CardProvider>(context,listen: false);
+          final center = constraints.smallest.center(Offset.zero);
+          final angle = provider.angle * pi / 180;
+          final rotatedMatrix = Matrix4.identity()
+            ..translate(center.dx, center.dy)
+            ..rotateZ(angle)
+            ..translate(-center.dx, -center.dy);
+
+          return AnimatedContainer(
+            duration: Duration(milliseconds: milliseconds),
+            transform: rotatedMatrix..translate(position.dx, position.dy),
+            curve: Curves.easeInOut,
+            child: buildCard(),
+          );
+        },
+      ),
+      onPanStart: (details) {
+        final provider = Provider.of<CardProvider>(context, listen: false);
+        provider.startPosition(details);
+      }, onPanUpdate: (details) {
+      final provider = Provider.of<CardProvider>(context, listen: false);
       provider.updatePosition(details);
-    }, onPanEnd: (details){
-      final provider = Provider.of<CardProvider>(context,listen: false);
+    }, onPanEnd: (details) {
+      final provider = Provider.of<CardProvider>(context, listen: false);
       provider.endPosition();
     },
-  );
+    );
+  }
 
-  Widget buildCard() => ClipRRect(
-    borderRadius: BorderRadius.circular(20),
-    child: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(widget.image),
-          fit: BoxFit.fill,
-          alignment: const Alignment(-0.3,0)
+  Widget buildCard(){
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(widget.image),
+            fit: BoxFit.fill,
+            alignment: const Alignment(-0.3,0)
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 
