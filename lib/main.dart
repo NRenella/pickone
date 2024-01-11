@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'services/auth/auth_gate.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:pickone/firebase_options.dart';
-import 'package:provider/provider.dart';
-import 'package:pickone/services/auth/auth_service.dart';
-import 'package:pickone/services/auth/card_provider.dart';
 import 'package:flutter/services.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
+import 'package:pickone/firebase_options.dart';
+import 'package:pickone/services/auth/auth_service.dart';
+import 'package:pickone/services/auth/auth_gate.dart';
+import 'package:pickone/services/auth/card_provider.dart';
+
+
+// Our main function we run
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Disable landscape mode on the phone
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Create two providers one for AuthService and one for the CardProvider
   runApp(
       MultiProvider(
         providers: [
